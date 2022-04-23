@@ -12,6 +12,14 @@ Setting up infrastructure for `hostPath` volumes
 ```bash
 minikube mount ~/repos:/hostrepos
 ```
+setting up `ConfigMap` and `Secrets`
+```bash
+kubectl create configmap configserver-config-map --from-env-file=config-server.env
+kubectl create configmap generic-config-map --from-env-file=generic.env
+
+kubectl get cm configserver-config-map -o yaml
+kubectl get cm generic-config-map -o yaml
+```
 # Config Service
 
 # Eureka Service
