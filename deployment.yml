@@ -42,11 +42,12 @@ spec:
           volumeMounts:
             - mountPath: /jars
               name: myjars
+          envFrom:
+            - configMapRef:
+                name: configserver-config-map
           env:
             - name: APP_JAR
               value: /jars/config-server-0.0.1-SNAPSHOT.jar
-            - name: CONFIG_ROOT_PATH
-              value: "https://github.com/aw84/imagelib-configuration.git"
       volumes:
         - name: myjars
           hostPath:
