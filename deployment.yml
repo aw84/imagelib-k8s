@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: configsrv
+  labels:
+    app: configserver
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: configserver
+  template:
+    metadata:
+      labels:
+        app: configserver
+    spec:
+      containers:
+        - name: configsrv
+          image: awpms/image-base
+          imagePullPolicy: Never
+          livenessProbe:
+            httpGet:
+              path: /actuator/info
+              port: 8082
+            initialDelaySeconds: 15
+            timeoutSeconds: 10
+            periodSeconds: 15
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /api/default
+              port: 8082
+            initialDelaySeconds: 15
+            timeoutSeconds: 10
+            periodSeconds: 10
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "1000m"
+          ports:
+            - containerPort: 8082
+          volumeMounts:
+            - mountPath: /jars
+              name: myjars
+          env:
+            - name: APP_JAR
+              value: /jars/config-server-0.0.1-SNAPSHOT.jar
+            - name: CONFIG_ROOT_PATH
+              value: "https://github.com/aw84/imagelib-configuration.git"
+      volumes:
+        - name: myjars
+          hostPath:
+            path: /hostrepos/imglib/imagelib-docker/jars
+            type: Directory
