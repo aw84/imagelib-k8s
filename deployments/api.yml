@@ -42,6 +42,8 @@ spec:
           volumeMounts:
             - mountPath: /jars
               name: myjars
+            - mountPath: /imgdata
+              name: imgdata
           envFrom:
             - configMapRef:
                 name: generic-config-map
@@ -52,4 +54,8 @@ spec:
         - name: myjars
           hostPath:
             path: /hostrepos/imglib/imagelib-docker/jars
+            type: Directory
+        - name: imgdata
+          hostPath:
+            path: /hostrepos/imgdata
             type: Directory
