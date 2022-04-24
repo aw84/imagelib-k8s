@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zipkin
+  labels:
+    app: zipkin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zipkin
+  template:
+    metadata:
+      labels:
+        app: zipkin
+    spec:
+      containers:
+        - name: zipkin
+          image: awpms/image-base
+          imagePullPolicy: Never
+          livenessProbe:
+            httpGet:
+              path: /actuator/info
+              port: 9411
+            initialDelaySeconds: 15
+            timeoutSeconds: 10
+            periodSeconds: 15
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /actuator/info
+              port: 9411
+            initialDelaySeconds: 15
+            timeoutSeconds: 10
+            periodSeconds: 10
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "1000m"
+          ports:
+            - containerPort: 9411
+          volumeMounts:
+            - mountPath: /jars
+              name: myjars
+          env:
+            - name: APP_JAR
+              value: /jars/zipkin-server-2.23.16-exec.jar
+      volumes:
+        - name: myjars
+          hostPath:
+            path: /hostrepos/imglib/imagelib-docker/jars
+            type: Directory
