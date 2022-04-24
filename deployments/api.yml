@@ -47,6 +47,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: generic-config-map
+            - configMapRef:
+                name: api-config-map
           env:
             - name: APP_JAR
               value: /jars/api-0.0.1-SNAPSHOT.jar
