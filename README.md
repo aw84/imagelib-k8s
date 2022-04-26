@@ -17,10 +17,12 @@ setting up `ConfigMap` and `Secrets`
 kubectl create configmap configserver-config-map --from-env-file=envs/config-server.env
 kubectl create configmap generic-config-map --from-env-file=envs/generic.env
 kubectl create configmap api-config-map --from-env-file=envs/api.env
+kubectl create configmap frontend-config-map --from-env-file=envs/frontend.env
 
 kubectl get cm configserver-config-map -o yaml
 kubectl get cm generic-config-map -o yaml
 kubectl get cm api-config-map -o yaml
+kubectl get cm frontend-config-map -o yaml
 ```
 # Envs
 
