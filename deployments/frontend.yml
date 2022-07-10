@@ -22,7 +22,7 @@ spec:
             httpGet:
               path: /actuator/info
               port: 8080
-            initialDelaySeconds: 15
+            initialDelaySeconds: 60
             timeoutSeconds: 10
             periodSeconds: 15
             failureThreshold: 3
@@ -32,11 +32,12 @@ spec:
               port: 8080
             initialDelaySeconds: 15
             timeoutSeconds: 10
-            periodSeconds: 10
+            periodSeconds: 15
+            failureThreshold: 3
           resources:
             limits:
               memory: "512Mi"
-              cpu: "1000m"
+              cpu: "250m"
           ports:
             - containerPort: 8080
           volumeMounts:
